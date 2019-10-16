@@ -1,0 +1,13 @@
+[package]
+name = "filterer"
+version = "0.1.0"
+authors = ["misonomi <misonomi0612+github@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+rocket = {github = "https://github.com/SergioBenitez/Rocket"}
+egg-mode = {github = "https://github.com/QuietMisdreavus/twitter-rs"}
+tokio = "0.1.21"
+
+yansi = "0.5.0"
+chrono = "0.4"
