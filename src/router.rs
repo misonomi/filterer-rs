@@ -4,6 +4,8 @@ pub use yansi::Paint;
 use chrono;
 
 use tokio::runtime::current_thread::block_on_all;
+use super::twitter::make_query;
+
 #[get("/")]
 pub fn hello() -> &'static str {
     "Hello, Rust 2018!"
@@ -12,12 +14,11 @@ pub fn hello() -> &'static str {
 #[get("/search/<terms>")]
 pub fn search(tw_token: State<egg_mode::Token>, terms: &RawStr) -> &'static str {
     let search = block_on_all(
-        search::search(terms.as_str())
+        search::search(make_query(terms.as_str()))
             .result_type(ResultType::Recent)
             .count(10)
-            .call(&tw_token),
-    )
-    .unwrap();
+            .call(&tw_token)
+    ).unwrap();
 
     for tweet in &search.statuses {
         print_tweet(tweet);

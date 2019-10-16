@@ -13,3 +13,16 @@ pub fn auth_app() -> egg_mode::Token {
         ),
     }
 }
+
+pub fn make_query(raw_query: &str) -> String {
+    let mut joined = raw_query
+        .split('+')
+        .collect::<Vec<&str>>()
+        .into_iter()
+        .map(|e| format!("\"{}\"", e))
+        .collect::<Vec<_>>()
+        .join(" OR ");
+    joined.push_str(" exclude:retweets");
+    joined.push_str(" filter:images");
+    joined
+} 
