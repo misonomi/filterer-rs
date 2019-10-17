@@ -23,5 +23,5 @@ pub fn search(tw_token: State<egg_mode::Token>, terms: &RawStr) -> Json<Vec<Twee
     for tweet in &search.statuses {
         print_tweet(tweet);
     }
-    "aaa"
+    Json(search.statuses.into_iter().map(|t| TweetStub::from(t)).collect())
 }
