@@ -5,7 +5,7 @@ use rocket::{routes};
 
 mod twitter;
 mod router;
-
+mod structs;
 
 fn main() {
     let twitter_token = twitter::auth_app();
