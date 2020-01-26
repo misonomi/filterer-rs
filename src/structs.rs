@@ -16,8 +16,8 @@ impl From<Tweet> for TweetStub {
                 .map(|m| {
                     Image{
                         url: m.media_url_https,
-                        W: 0,
-                        H: 0,
+                        w: 0,
+                        h: 0,
                     }
                 })
                 .collect::<Vec<_>>();
@@ -34,6 +34,6 @@ impl From<Tweet> for TweetStub {
 #[derive(Serialize)]
 struct Image {
     url: String,
-    W: u16,
-    H: u16,
+    w: u16,
+    h: u16,
 }
