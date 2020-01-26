@@ -13,10 +13,13 @@ pub fn hello() -> &'static str {
 
 #[get("/search/<terms>")]
 pub fn search(tw_token: State<egg_mode::Token>, terms: &RawStr) -> Json<Vec<TweetStub>> {
+    let query_vec = terms.as_str()
+        .split('+')
+        .collect::<Vec<&str>>();
     let search = block_on_all(
-        search::search(make_query(terms.as_str()))
+        search::search(make_query(query_vec.clone()))
             .result_type(ResultType::Recent)
-            .count(10)
+            .count(100)
             .call(&tw_token)
     ).unwrap();
 
@@ -26,7 +29,7 @@ pub fn search(tw_token: State<egg_mode::Token>, terms: &RawStr) -> Json<Vec<Twee
     Json(
         search.statuses.clone()
             .into_iter()
-            .filter(|t| shoud_display(t))
+            .filter(|t| shoud_display(t, &query_vec))
             .map(|t| TweetStub::from(t))
             .collect()
     )

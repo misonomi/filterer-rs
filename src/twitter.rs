@@ -16,11 +16,8 @@ pub fn auth_app() -> Token {
     }
 }
 
-pub fn make_query(raw_query: &str) -> String {
-    let mut joined = raw_query
-        .split('+')
-        .collect::<Vec<&str>>()
-        .into_iter()
+pub fn make_query(query_vec: Vec<&str>) -> String {
+    let mut joined = query_vec.iter()
         .map(|e| format!("\"{}\"", e))
         .collect::<Vec<_>>()
         .join(" OR ");
@@ -29,8 +26,8 @@ pub fn make_query(raw_query: &str) -> String {
     joined
 }
 
-pub fn shoud_display(tweet: &Tweet) -> bool {
-    true
+pub fn shoud_display(tweet: &Tweet, query_vec: &Vec<&str>) -> bool {
+    query_vec.iter().any(|q| tweet.text.contains(q))
 }
 
 pub fn print_tweet(tweet: &Tweet) {
