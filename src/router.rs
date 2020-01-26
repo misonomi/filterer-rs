@@ -3,7 +3,7 @@ use rocket_contrib::json::Json;
 use egg_mode::search::{self, ResultType};
 
 use tokio::runtime::current_thread::block_on_all;
-use super::twitter::{make_query, print_tweet};
+use super::twitter::{make_query, shoud_display, print_tweet};
 use super::structs::TweetStub;
 
 #[get("/")]
@@ -23,5 +23,11 @@ pub fn search(tw_token: State<egg_mode::Token>, terms: &RawStr) -> Json<Vec<Twee
     for tweet in &search.statuses {
         print_tweet(tweet);
     }
-    Json(search.statuses.into_iter().map(|t| TweetStub::from(t)).collect())
+    Json(
+        search.statuses.clone()
+            .into_iter()
+            .filter(|t| shoud_display(t))
+            .map(|t| TweetStub::from(t))
+            .collect()
+    )
 }
