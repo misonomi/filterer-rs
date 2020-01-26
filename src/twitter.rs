@@ -1,15 +1,15 @@
-use egg_mode;
+use egg_mode::{Token, KeyPair, tweet::Tweet};
 use std::env;
 pub use yansi::Paint;
 use chrono;
 
-pub fn auth_app() -> egg_mode::Token {
-    egg_mode::Token::Access {
-        consumer: egg_mode::KeyPair::new(
+pub fn auth_app() -> Token {
+    Token::Access {
+        consumer: KeyPair::new(
             env::var("TWITTER_CONSUMER").expect("need 'TWITTER_CONSUMER' in env var"),
             env::var("TWITTER_CONSUMER_SECRET").expect("need 'TWITTER_CONSUMER_SECRET' in env var"),
         ),
-        access: egg_mode::KeyPair::new(
+        access: KeyPair::new(
             env::var("TWITTER_ACCESS").expect("need 'TWITTER_ACCESS' in env var"),
             env::var("TWITTER_ACCESS_SECRET").expect("need 'TWITTER_ACCESS_SECRET' in env var"),
         ),
@@ -29,7 +29,11 @@ pub fn make_query(raw_query: &str) -> String {
     joined
 }
 
-pub fn print_tweet(tweet: &egg_mode::tweet::Tweet) {
+pub fn shoud_display(tweet: &Tweet) -> bool {
+    true
+}
+
+pub fn print_tweet(tweet: &Tweet) {
     if let Some(ref user) = tweet.user {
         println!(
             "{} (@{}) posted at {}",
