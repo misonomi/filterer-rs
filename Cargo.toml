@@ -12,7 +12,7 @@ features = ["json"]
 [dependencies]
 rocket = {github = "https://github.com/SergioBenitez/Rocket"}
 egg-mode = {github = "https://github.com/QuietMisdreavus/twitter-rs"}
-tokio = "0.1.21"
+tokio = "1.8.4"
 serde = { version = "1.0.101", features = ["derive"] }
 percent-encoding = "2.1.0"
 
